@@ -1,7 +1,9 @@
 # Fully-Adaptive Two-Round Threshold Schnorr Prototype
 
 This repository contains a prototype implementation accompanying the paper  
-**Fully-Adaptive Two-Round Threshold Schnorr Signatures from DDH**.
+> **Fully-Adaptive Two-Round Threshold Schnorr Signatures from DDH**  
+> Paul Gerhart, Davide Li Calsi, Luigi Russo, and Dominique Schröder  
+> EUROCRYPT 2025
 
 **⚠️ Prototype Disclaimer**  
 This code is intended solely for research and benchmarking.
