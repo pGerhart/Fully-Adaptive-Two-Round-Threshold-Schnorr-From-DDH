@@ -1,10 +1,10 @@
 use curve25519_dalek::{
     ristretto::RistrettoPoint,
     scalar::Scalar,
-    traits::{MultiscalarMul, VartimeMultiscalarMul},
+    traits::VartimeMultiscalarMul,
 };
 
-use chacha20::ChaCha12;
+use chacha20::ChaCha8;
 use chacha20::cipher::{KeyIvInit, StreamCipher};
 use rand::RngCore;
 use rand::rngs::OsRng;
@@ -26,13 +26,6 @@ pub fn h2p(domain: &str, tag: &str, i: u64) -> RistrettoPoint {
 // --------------------------------------------------------------------------------------
 // MSM (multi-scalar multiplication)
 // --------------------------------------------------------------------------------------
-
-/// Constant-time MSM (side-channel hardening).
-#[inline]
-pub fn msm_ct(points: &[RistrettoPoint], scalars: &[Scalar]) -> RistrettoPoint {
-    // Note: takes iterators; this version is constant-time but slower.
-    RistrettoPoint::multiscalar_mul(scalars.iter(), points.iter())
-}
 
 #[inline]
 pub fn msm_vt(points: &[RistrettoPoint], scalars: &[Scalar]) -> RistrettoPoint {
@@ -83,7 +76,7 @@ pub fn pad_zeros(mut v: Vec<Scalar>, m: usize) -> Vec<Scalar> {
 #[inline]
 pub fn vandermonde(powers: &mut Vec<Scalar>, z: Scalar, n: usize) {
     powers.clear();
-    powers.reserve(n.saturating_sub(powers.capacity()));
+    powers.reserve(n);
     let mut pow = Scalar::ONE;
     for _ in 0..n {
         powers.push(pow);
@@ -124,7 +117,7 @@ pub fn eval_and_maybe_powers(
     match powers_out {
         Some(p) => {
             p.clear();
-            p.reserve(coeffs.len().saturating_sub(p.capacity()));
+            p.reserve(coeffs.len());
             let mut pow = Scalar::ONE;
             let mut y = Scalar::ZERO;
             for &c in coeffs {
@@ -148,7 +141,6 @@ pub fn powers_and_eval(coeffs: &[Scalar], z: Scalar) -> (Vec<Scalar>, Scalar) {
 
 /// a_i = H(key || i) mapped to a Scalar via SHA-512
 pub fn coeff_at(key: &Scalar, i: usize) -> Scalar {
-    // Optional domain separator to avoid cross-protocol collisions.
     const DST: &[u8] = b"poly-coeff";
 
     let mut h = Sha512::new();
@@ -166,14 +158,14 @@ pub fn coeff_from_state(base: &Sha512, i: usize) -> Scalar {
     Scalar::from_hash(h)
 }
 
-/// a_i = ChaCha12(key, nonce=i)[:64] reduced mod l
+/// a_i = ChaCha8(key, nonce=i)[:64] reduced mod l
 #[inline(always)]
-pub fn coeff_at_chacha12(key: &Scalar, i: usize) -> Scalar {
-    let key_bytes = key.to_bytes(); // 32 bytes
-    let mut nonce = [0u8; 12]; // 96-bit nonce
+pub fn coeff_at_chacha8(key: &Scalar, i: usize) -> Scalar {
+    let key_bytes = key.to_bytes();
+    let mut nonce = [0u8; 12];
     nonce[..8].copy_from_slice(&(i as u64).to_le_bytes());
 
-    let mut cipher = ChaCha12::new(&key_bytes.into(), &nonce.into());
+    let mut cipher = ChaCha8::new(&key_bytes.into(), &nonce.into());
     let mut buf = [0u8; 64];
     cipher.apply_keystream(&mut buf);
 

@@ -1,7 +1,7 @@
 #![allow(non_snake_case)]
 use crate::helpers::msm;
 use crate::polynomial::PublicEval as PolyPublic; // for constructing PublicEval on verifier
-use crate::rel_eval::{RelEvalProof, prove_rel_eval, verify_rel_eval};
+use crate::rel_eval::{RelEvalProof, prove_sigma, verify_sigma};
 use crate::sig_keygen::UserSecret;
 use crate::sig_setup::SigParams;
 use curve25519_dalek::{ristretto::RistrettoPoint, scalar::Scalar};
@@ -28,11 +28,10 @@ pub struct RandCommitment {
     pub R: RistrettoPoint,                    // session commitment
     pub Cr: RistrettoPoint,                   // evaluation commitment C_r
     pub ipa_proof: bulletproofs::LinearProof, // IPA proof for C_r
-    pub sigma: RelEvalProof,                  // Σ-proof linking (R, C_r, C)
+    pub sigma: RelEvalProof,                  // sigma-proof linking (R, C_r, C)
 }
 
-/// Prover: compute (r,R), prove C_r via IPA, then Σ-proof for (R,C_r,C).
-/// Requires Polynomial::prove_eval_with_rho(z,&pp) -> (y, proof, public, rho_r)
+/// Prover: compute (r,R), prove C_r via IPA, then sigma-proof for (R,C_r,C).
 pub fn rel_eval_prove<RNG: RngCore + CryptoRng>(
     tr_sigma: Transcript,
     rng: &mut RNG,
@@ -46,12 +45,12 @@ pub fn rel_eval_prove<RNG: RngCore + CryptoRng>(
     // 1) r and R
     let (r, R) = compute_r(sk, sp, h1, h2, z);
 
-    // 2) IPA for C_r = g^r g_ρ^{ρ_r}
+    // 2) IPA proof for C_r
     let (r_again, ipa_proof, poly_pub, rho_r) = sk.poly.prove_eval(z, &sk.pp);
     debug_assert_eq!(r_again, r, "poly eval mismatch");
 
-    // 3) Σ-proof ties R, C_r, C with witnesses (r, ρ_r, u, w, x)
-    let sigma = prove_rel_eval(
+    // 3) sigma-proof for (R, C_r, C)
+    let sigma = prove_sigma(
         tr_sigma,
         rng,
         sp,
@@ -79,7 +78,7 @@ pub fn rel_eval_prove<RNG: RngCore + CryptoRng>(
 }
 
 /// Verifier: consumes the prover’s `a` and `P` directly (no reconstruction).
-/// Returns true iff IPA and Σ pass.
+/// Returns true iff IPA and sigma-proof pass.
 pub fn rel_eval_verify(
     tr_sigma: Transcript,
     sp: &SigParams,
@@ -106,8 +105,8 @@ pub fn rel_eval_verify(
         return false;
     }
 
-    // 2) verify Σ proof for (R, C_r=Cy, C)
-    verify_rel_eval(tr_sigma, sp, h1, h2, C, &com.R, &com.Cr, &com.sigma)
+    // 2) verify sigma-proof for (R, C_r=Cy, C)
+    verify_sigma(tr_sigma, sp, h1, h2, C, &com.R, &com.Cr, &com.sigma)
 }
 
 #[cfg(test)]

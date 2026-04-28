@@ -1,0 +1,25 @@
+Run on a MBP M3 Pro, 36GB RAM 
+
+(base) ➜  secp256k1-zkp-bulletproof-musig-dn-benches ./bench_bulletproof 
+Proof size 1124 bytes
+Proof size 1124 bytes
+Proof size 1124 bytes
+Proof size 1124 bytes
+Proof size 1124 bytes
+Proof size 1124 bytes
+Proof size 1124 bytes
+Proof size 1124 bytes
+Proof size 1124 bytes
+Proof size 1124 bytes
+Proof size 1124 bytes
+Proof size 1124 bytes
+Proof size 1124 bytes
+Proof size 1124 bytes
+Proof size 1124 bytes
+Proof size 1124 bytes
+Proof size 1124 bytes
+bulletproof_prove_purify, : min 534014us / avg 545270us / max 567060us
+bulletproof_verify_purify, 1, : min 22788us / avg 23202us / max 23844us
+bulletproof_verify_purify, 2, : min 26881us / avg 26975us / max 27302us
+bulletproof_verify_purify, 10, : min 59873us / avg 60683us / max 62166us
+bulletproof_verify_purify, 100, : min 432659us / avg 434848us / max 438525us

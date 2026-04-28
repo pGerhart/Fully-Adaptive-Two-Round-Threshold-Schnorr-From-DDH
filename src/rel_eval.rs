@@ -5,7 +5,7 @@ use merlin::Transcript;
 use rand::{CryptoRng, RngCore};
 use rayon::join;
 
-/// Compact Σ-proof for the relation:
+/// Sigma-proof for the relation:
 ///   R  = g^r * h1^w * h2^u
 ///   Cr = g^r * g_rho^{rho_r}
 ///   C  = g^x * h^w * v^u
@@ -48,8 +48,8 @@ fn absorb_for_challenge(
     challenge_scalar(tr, b"c")
 }
 
-/// Prover side (Fiat–Shamir): outputs only (c, z_*).
-pub fn prove_rel_eval<RNG: RngCore + CryptoRng>(
+/// Prover (Fiat-Shamir): outputs only (c, z_*).
+pub fn prove_sigma<RNG: RngCore + CryptoRng>(
     mut tr: Transcript,
     rng: &mut RNG,
     sp: &SigParams,
@@ -81,7 +81,7 @@ pub fn prove_rel_eval<RNG: RngCore + CryptoRng>(
         },
     );
 
-    // Fiat–Shamir challenge
+    // Fiat-Shamir challenge
     let c = absorb_for_challenge(&mut tr, &T1, &T2, &T3, R, Cr, C);
 
     // Responses
@@ -102,7 +102,7 @@ pub fn prove_rel_eval<RNG: RngCore + CryptoRng>(
 }
 
 /// Verifier: recompute T’s from (c, z_*) and public data, then re-derive c’.
-pub fn verify_rel_eval(
+pub fn verify_sigma(
     mut tr: Transcript,
     sp: &SigParams,
     h1: &RistrettoPoint,
@@ -184,14 +184,14 @@ mod tests {
         // --- prove ---
         let mut rng = OsRng;
         let tr_prove = Transcript::new(b"RelEval");
-        let proof = prove_rel_eval(
+        let proof = prove_sigma(
             tr_prove, &mut rng, &sp, &h1, &h2, &C, &R, &Cr, r, rho_r, u, w, x,
         );
 
         // --- verify (positive) ---
         let tr_verify = Transcript::new(b"RelEval");
         assert!(
-            verify_rel_eval(tr_verify, &sp, &h1, &h2, &C, &R, &Cr, &proof),
+            verify_sigma(tr_verify, &sp, &h1, &h2, &C, &R, &Cr, &proof),
             "valid proof should verify"
         );
 
@@ -199,7 +199,7 @@ mod tests {
         let C_bad = C + sp.g; // small deterministic tweak
         let tr_verify_bad = Transcript::new(b"RelEval");
         assert!(
-            !verify_rel_eval(tr_verify_bad, &sp, &h1, &h2, &C_bad, &R, &Cr, &proof),
+            !verify_sigma(tr_verify_bad, &sp, &h1, &h2, &C_bad, &R, &Cr, &proof),
             "tampered instance should fail verification"
         );
     }

@@ -1,0 +1,249 @@
+Run on a MBP M3 Pro, 36GB RAM     
+
+    Finished `bench` profile [optimized] target(s) in 4.34s
+     Running benches/bench_poly.rs (target/release/deps/bench_poly-d759fd82fcbb1112)
+poly_eval_functions/eval_stored/16
+                        time:   [1.4314 µs 1.4341 µs 1.4373 µs]
+                        change: [+0.0445% +0.2781% +0.5298%] (p = 0.02 < 0.05)
+                        Change within noise threshold.
+Found 12 outliers among 100 measurements (12.00%)
+  6 (6.00%) high mild
+  6 (6.00%) high severe
+poly_eval_functions/eval_ro_cha_cha/16
+                        time:   [3.3941 µs 3.3968 µs 3.4005 µs]
+                        change: [-0.1646% +0.0869% +0.3611%] (p = 0.53 > 0.05)
+                        No change in performance detected.
+Found 15 outliers among 100 measurements (15.00%)
+  2 (2.00%) high mild
+  13 (13.00%) high severe
+poly_eval_functions/eval_ro/16
+                        time:   [5.6046 µs 5.6092 µs 5.6151 µs]
+                        change: [-6.1772% -2.8938% -0.2803%] (p = 0.05 < 0.05)
+                        Change within noise threshold.
+Found 13 outliers among 100 measurements (13.00%)
+  6 (6.00%) high mild
+  7 (7.00%) high severe
+poly_eval_functions/eval_stored/32
+                        time:   [2.7620 µs 2.7637 µs 2.7655 µs]
+                        change: [-0.2003% +0.0430% +0.2994%] (p = 0.75 > 0.05)
+                        No change in performance detected.
+Found 11 outliers among 100 measurements (11.00%)
+  6 (6.00%) high mild
+  5 (5.00%) high severe
+poly_eval_functions/eval_ro_cha_cha/32
+                        time:   [6.5801 µs 6.5845 µs 6.5897 µs]
+Found 16 outliers among 100 measurements (16.00%)
+  6 (6.00%) high mild
+  10 (10.00%) high severe
+poly_eval_functions/eval_ro/32
+                        time:   [10.864 µs 10.875 µs 10.890 µs]
+                        change: [-2.9003% -2.0846% -1.4457%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 17 outliers among 100 measurements (17.00%)
+  6 (6.00%) high mild
+  11 (11.00%) high severe
+poly_eval_functions/eval_stored/64
+                        time:   [27.543 µs 27.677 µs 27.801 µs]
+                        change: [+0.1407% +1.4109% +2.7863%] (p = 0.04 < 0.05)
+                        Change within noise threshold.
+Found 10 outliers among 100 measurements (10.00%)
+  5 (5.00%) low severe
+  2 (2.00%) low mild
+  3 (3.00%) high mild
+poly_eval_functions/eval_ro_cha_cha/64
+                        time:   [32.548 µs 32.687 µs 32.833 µs]
+                        change: [-2.0088% -1.2754% -0.5153%] (p = 0.00 < 0.05)
+                        Change within noise threshold.
+Found 7 outliers among 100 measurements (7.00%)
+  2 (2.00%) low mild
+  4 (4.00%) high mild
+  1 (1.00%) high severe
+poly_eval_functions/eval_ro/64
+                        time:   [37.060 µs 37.311 µs 37.576 µs]
+                        change: [-1.8537% -0.8378% +0.1796%] (p = 0.11 > 0.05)
+                        No change in performance detected.
+Found 8 outliers among 100 measurements (8.00%)
+  1 (1.00%) low mild
+  5 (5.00%) high mild
+  2 (2.00%) high severe
+poly_eval_functions/eval_stored/128
+                        time:   [33.706 µs 34.274 µs 34.817 µs]
+Found 3 outliers among 100 measurements (3.00%)
+  2 (2.00%) low mild
+  1 (1.00%) high mild
+poly_eval_functions/eval_ro_cha_cha/128
+                        time:   [40.382 µs 40.505 µs 40.618 µs]
+Found 10 outliers among 100 measurements (10.00%)
+  3 (3.00%) low mild
+  3 (3.00%) high mild
+  4 (4.00%) high severe
+poly_eval_functions/eval_ro/128
+                        time:   [44.144 µs 44.391 µs 44.729 µs]
+Found 4 outliers among 100 measurements (4.00%)
+  2 (2.00%) high mild
+  2 (2.00%) high severe
+poly_eval_functions/eval_stored/256
+                        time:   [40.536 µs 40.964 µs 41.297 µs]
+                        change: [+0.8662% +2.8886% +4.9495%] (p = 0.01 < 0.05)
+                        Change within noise threshold.
+Found 18 outliers among 100 measurements (18.00%)
+  7 (7.00%) low severe
+  8 (8.00%) low mild
+  3 (3.00%) high mild
+poly_eval_functions/eval_ro_cha_cha/256
+                        time:   [46.388 µs 46.962 µs 47.445 µs]
+                        change: [+0.1210% +1.7075% +3.1638%] (p = 0.03 < 0.05)
+                        Change within noise threshold.
+Found 13 outliers among 100 measurements (13.00%)
+  3 (3.00%) low severe
+  9 (9.00%) low mild
+  1 (1.00%) high mild
+poly_eval_functions/eval_ro/256
+                        time:   [57.252 µs 57.962 µs 58.597 µs]
+                        change: [+3.2862% +5.1037% +6.9075%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 12 outliers among 100 measurements (12.00%)
+  2 (2.00%) low severe
+  10 (10.00%) low mild
+poly_eval_functions/eval_stored/512
+                        time:   [41.495 µs 41.816 µs 42.081 µs]
+Found 1 outliers among 100 measurements (1.00%)
+  1 (1.00%) low mild
+poly_eval_functions/eval_ro_cha_cha/512
+                        time:   [46.063 µs 46.240 µs 46.440 µs]
+Found 12 outliers among 100 measurements (12.00%)
+  2 (2.00%) low mild
+  4 (4.00%) high mild
+  6 (6.00%) high severe
+poly_eval_functions/eval_ro/512
+                        time:   [54.547 µs 54.952 µs 55.433 µs]
+Found 14 outliers among 100 measurements (14.00%)
+  9 (9.00%) high mild
+  5 (5.00%) high severe
+poly_eval_functions/eval_stored/1024
+                        time:   [38.956 µs 39.177 µs 39.438 µs]
+                        change: [-2.7684% -1.1495% +0.3899%] (p = 0.17 > 0.05)
+                        No change in performance detected.
+Found 13 outliers among 100 measurements (13.00%)
+  3 (3.00%) high mild
+  10 (10.00%) high severe
+poly_eval_functions/eval_ro_cha_cha/1024
+                        time:   [66.229 µs 66.408 µs 66.603 µs]
+                        change: [-3.0186% -2.2224% -1.4386%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 7 outliers among 100 measurements (7.00%)
+  5 (5.00%) high mild
+  2 (2.00%) high severe
+poly_eval_functions/eval_ro/1024
+                        time:   [81.848 µs 83.168 µs 84.908 µs]
+                        change: [-9.6939% -7.3804% -5.2247%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 7 outliers among 100 measurements (7.00%)
+  5 (5.00%) high mild
+  2 (2.00%) high severe
+poly_eval_functions/eval_stored/2048
+                        time:   [56.723 µs 57.666 µs 58.729 µs]
+Found 8 outliers among 100 measurements (8.00%)
+  6 (6.00%) high mild
+  2 (2.00%) high severe
+poly_eval_functions/eval_ro_cha_cha/2048
+                        time:   [101.06 µs 101.57 µs 102.18 µs]
+Found 13 outliers among 100 measurements (13.00%)
+  5 (5.00%) high mild
+  8 (8.00%) high severe
+poly_eval_functions/eval_ro/2048
+                        time:   [135.36 µs 137.24 µs 139.03 µs]
+Found 2 outliers among 100 measurements (2.00%)
+  2 (2.00%) high mild
+poly_eval_functions/eval_stored/4096
+                        time:   [88.459 µs 89.174 µs 90.058 µs]
+                        change: [-2.7404% -0.8083% +1.1061%] (p = 0.41 > 0.05)
+                        No change in performance detected.
+Found 4 outliers among 100 measurements (4.00%)
+  4 (4.00%) high mild
+poly_eval_functions/eval_ro_cha_cha/4096
+                        time:   [167.53 µs 168.02 µs 168.58 µs]
+                        change: [-0.9617% -0.2509% +0.5091%] (p = 0.51 > 0.05)
+                        No change in performance detected.
+Found 8 outliers among 100 measurements (8.00%)
+  1 (1.00%) low mild
+  4 (4.00%) high mild
+  3 (3.00%) high severe
+poly_eval_functions/eval_ro/4096
+                        time:   [240.73 µs 242.39 µs 244.23 µs]
+                        change: [-0.7481% +4.2182% +12.864%] (p = 0.33 > 0.05)
+                        No change in performance detected.
+Found 6 outliers among 100 measurements (6.00%)
+  4 (4.00%) high mild
+  2 (2.00%) high severe
+poly_eval_functions/eval_stored/8192
+                        time:   [156.44 µs 157.49 µs 158.73 µs]
+Found 6 outliers among 100 measurements (6.00%)
+  6 (6.00%) high mild
+poly_eval_functions/eval_ro_cha_cha/8192
+                        time:   [297.69 µs 298.62 µs 299.76 µs]
+Found 17 outliers among 100 measurements (17.00%)
+  5 (5.00%) high mild
+  12 (12.00%) high severe
+poly_eval_functions/eval_ro/8192
+                        time:   [455.00 µs 456.84 µs 458.96 µs]
+Found 15 outliers among 100 measurements (15.00%)
+  8 (8.00%) high mild
+  7 (7.00%) high severe
+poly_eval_functions/eval_stored/16384
+                        time:   [300.27 µs 303.13 µs 306.52 µs]
+                        change: [-1.2316% -0.1396% +0.8662%] (p = 0.81 > 0.05)
+                        No change in performance detected.
+Found 16 outliers among 100 measurements (16.00%)
+  12 (12.00%) high mild
+  4 (4.00%) high severe
+poly_eval_functions/eval_ro_cha_cha/16384
+                        time:   [604.83 µs 608.00 µs 611.32 µs]
+Found 15 outliers among 100 measurements (15.00%)
+  9 (9.00%) high mild
+  6 (6.00%) high severe
+poly_eval_functions/eval_ro/16384
+                        time:   [895.01 µs 900.09 µs 906.11 µs]
+                        change: [+2.8137% +4.2352% +5.5121%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 4 outliers among 100 measurements (4.00%)
+  4 (4.00%) high mild
+poly_eval_functions/eval_stored/32768
+                        time:   [581.01 µs 585.30 µs 590.07 µs]
+Found 5 outliers among 100 measurements (5.00%)
+  1 (1.00%) low mild
+  3 (3.00%) high mild
+  1 (1.00%) high severe
+Benchmarking poly_eval_functions/eval_ro_cha_cha/32768: Warming up for 3.0000 s
+Warning: Unable to complete 100 samples in 5.0s. You may wish to increase target time to 5.9s, enable flat sampling, or reduce sample count to 60.
+poly_eval_functions/eval_ro_cha_cha/32768
+                        time:   [1.1416 ms 1.1503 ms 1.1602 ms]
+Found 3 outliers among 100 measurements (3.00%)
+  1 (1.00%) high mild
+  2 (2.00%) high severe
+Benchmarking poly_eval_functions/eval_ro/32768: Warming up for 3.0000 s
+Warning: Unable to complete 100 samples in 5.0s. You may wish to increase target time to 8.9s, enable flat sampling, or reduce sample count to 50.
+poly_eval_functions/eval_ro/32768
+                        time:   [1.7160 ms 1.7291 ms 1.7436 ms]
+Found 2 outliers among 100 measurements (2.00%)
+  2 (2.00%) high mild
+Benchmarking poly_eval_functions/eval_stored/65536: Warming up for 3.0000 s
+Warning: Unable to complete 100 samples in 5.0s. You may wish to increase target time to 5.6s, enable flat sampling, or reduce sample count to 60.
+poly_eval_functions/eval_stored/65536
+                        time:   [1.0411 ms 1.0492 ms 1.0579 ms]
+                        change: [+0.5307% +2.0263% +3.5915%] (p = 0.01 < 0.05)
+                        Change within noise threshold.
+Found 6 outliers among 100 measurements (6.00%)
+  4 (4.00%) high mild
+  2 (2.00%) high severe
+poly_eval_functions/eval_ro_cha_cha/65536
+                        time:   [2.1976 ms 2.2247 ms 2.2550 ms]
+Found 1 outliers among 100 measurements (1.00%)
+  1 (1.00%) high severe
+poly_eval_functions/eval_ro/65536
+                        time:   [3.2531 ms 3.2702 ms 3.2886 ms]
+                        change: [+0.0711% +0.7224% +1.3864%] (p = 0.04 < 0.05)
+                        Change within noise threshold.
+Found 5 outliers among 100 measurements (5.00%)
+  4 (4.00%) high mild
+  1 (1.00%) high severe

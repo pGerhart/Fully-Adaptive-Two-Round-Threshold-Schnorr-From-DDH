@@ -1,0 +1,163 @@
+Run on a MBP M3 Pro, 36GB RAM 
+
+     Running benches/bench_com.rs (target/release/deps/bench_com-09c5139a9e44530e)
+Benchmarking rel_eval/prove/16: Warming up for 3.0000 s
+Warning: Unable to complete 100 samples in 5.0s. You may wish to increase target time to 8.1s, enable flat sampling, or reduce sample count to 50.
+rel_eval/prove/16       time:   [1.5967 ms 1.5983 ms 1.5999 ms]
+                        change: [-2.6856% -2.4085% -2.0868%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 10 outliers among 100 measurements (10.00%)
+  1 (1.00%) low severe
+  1 (1.00%) low mild
+  2 (2.00%) high mild
+  6 (6.00%) high severe
+rel_eval/verify/16      time:   [554.14 µs 555.30 µs 556.62 µs]
+                        change: [-4.5758% -3.9713% -3.4543%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 8 outliers among 100 measurements (8.00%)
+  3 (3.00%) high mild
+  5 (5.00%) high severe
+rel_eval/prove/32       time:   [2.7158 ms 2.7196 ms 2.7239 ms]
+Found 9 outliers among 100 measurements (9.00%)
+  1 (1.00%) low mild
+  3 (3.00%) high mild
+  5 (5.00%) high severe
+rel_eval/verify/32      time:   [802.42 µs 805.50 µs 809.77 µs]
+Found 9 outliers among 100 measurements (9.00%)
+  5 (5.00%) high mild
+  4 (4.00%) high severe
+rel_eval/prove/64       time:   [4.9041 ms 4.9109 ms 4.9189 ms]
+                        change: [-1.9370% -1.7062% -1.4778%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 7 outliers among 100 measurements (7.00%)
+  4 (4.00%) high mild
+  3 (3.00%) high severe
+Benchmarking rel_eval/verify/64: Warming up for 3.0000 s
+Warning: Unable to complete 100 samples in 5.0s. You may wish to increase target time to 6.6s, enable flat sampling, or reduce sample count to 60.
+rel_eval/verify/64      time:   [1.2995 ms 1.3024 ms 1.3060 ms]
+                        change: [-2.6839% -2.3281% -1.9194%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 12 outliers among 100 measurements (12.00%)
+  4 (4.00%) high mild
+  8 (8.00%) high severe
+rel_eval/prove/128      time:   [9.1555 ms 9.1664 ms 9.1793 ms]
+Found 6 outliers among 100 measurements (6.00%)
+  3 (3.00%) high mild
+  3 (3.00%) high severe
+rel_eval/verify/128     time:   [2.2501 ms 2.2549 ms 2.2606 ms]
+Found 8 outliers among 100 measurements (8.00%)
+  2 (2.00%) high mild
+  6 (6.00%) high severe
+rel_eval/prove/256      time:   [17.578 ms 17.597 ms 17.618 ms]
+                        change: [-0.9944% -0.8408% -0.6941%] (p = 0.00 < 0.05)
+                        Change within noise threshold.
+Found 7 outliers among 100 measurements (7.00%)
+  3 (3.00%) high mild
+  4 (4.00%) high severe
+rel_eval/verify/256     time:   [3.8491 ms 3.8559 ms 3.8642 ms]
+                        change: [-4.6860% -3.7371% -2.9878%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 6 outliers among 100 measurements (6.00%)
+  2 (2.00%) high mild
+  4 (4.00%) high severe
+rel_eval/prove/512      time:   [33.870 ms 33.911 ms 33.959 ms]
+Found 8 outliers among 100 measurements (8.00%)
+  2 (2.00%) high mild
+  6 (6.00%) high severe
+rel_eval/verify/512     time:   [6.8635 ms 6.8722 ms 6.8821 ms]
+Found 6 outliers among 100 measurements (6.00%)
+  3 (3.00%) high mild
+  3 (3.00%) high severe
+Benchmarking rel_eval/prove/1024: Warming up for 3.0000 s
+Warning: Unable to complete 100 samples in 5.0s. You may wish to increase target time to 6.6s, or reduce sample count to 70.
+rel_eval/prove/1024     time:   [65.491 ms 65.693 ms 66.039 ms]
+                        change: [-0.8362% -0.4806% +0.0334%] (p = 0.02 < 0.05)
+                        Change within noise threshold.
+Found 7 outliers among 100 measurements (7.00%)
+  5 (5.00%) high mild
+  2 (2.00%) high severe
+rel_eval/verify/1024    time:   [12.577 ms 12.592 ms 12.610 ms]
+                        change: [-3.8864% -3.1934% -2.7170%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 5 outliers among 100 measurements (5.00%)
+  4 (4.00%) high mild
+  1 (1.00%) high severe
+Benchmarking rel_eval/prove/2048: Warming up for 3.0000 s
+Warning: Unable to complete 100 samples in 5.0s. You may wish to increase target time to 12.7s, or reduce sample count to 30.
+rel_eval/prove/2048     time:   [126.74 ms 126.92 ms 127.14 ms]
+Found 6 outliers among 100 measurements (6.00%)
+  3 (3.00%) high mild
+  3 (3.00%) high severe
+rel_eval/verify/2048    time:   [24.047 ms 24.134 ms 24.267 ms]
+Found 4 outliers among 100 measurements (4.00%)
+  2 (2.00%) high mild
+  2 (2.00%) high severe
+Benchmarking rel_eval/prove/4096: Warming up for 3.0000 s
+Warning: Unable to complete 100 samples in 5.0s. You may wish to increase target time to 24.8s, or reduce sample count to 20.
+rel_eval/prove/4096     time:   [247.29 ms 247.51 ms 247.80 ms]
+                        change: [-1.5413% -1.2306% -0.9539%] (p = 0.00 < 0.05)
+                        Change within noise threshold.
+Found 3 outliers among 100 measurements (3.00%)
+  2 (2.00%) high mild
+  1 (1.00%) high severe
+rel_eval/verify/4096    time:   [47.216 ms 47.552 ms 47.990 ms]
+                        change: [-2.4384% -1.4343% -0.4218%] (p = 0.00 < 0.05)
+                        Change within noise threshold.
+Found 12 outliers among 100 measurements (12.00%)
+  6 (6.00%) high mild
+  6 (6.00%) high severe
+Benchmarking rel_eval/prove/8192: Warming up for 3.0000 s
+Warning: Unable to complete 100 samples in 5.0s. You may wish to increase target time to 49.8s, or reduce sample count to 10.
+rel_eval/prove/8192     time:   [487.66 ms 488.36 ms 489.20 ms]
+Found 10 outliers among 100 measurements (10.00%)
+  6 (6.00%) high mild
+  4 (4.00%) high severe
+Benchmarking rel_eval/verify/8192: Warming up for 3.0000 s
+Warning: Unable to complete 100 samples in 5.0s. You may wish to increase target time to 9.3s, or reduce sample count to 50.
+rel_eval/verify/8192    time:   [93.019 ms 93.229 ms 93.549 ms]
+Found 5 outliers among 100 measurements (5.00%)
+  2 (2.00%) high mild
+  3 (3.00%) high severe
+Benchmarking rel_eval/prove/16384: Warming up for 3.0000 s
+Warning: Unable to complete 100 samples in 5.0s. You may wish to increase target time to 97.0s, or reduce sample count to 10.
+rel_eval/prove/16384    time:   [966.29 ms 966.84 ms 967.45 ms]
+                        change: [-2.0684% -1.7457% -1.4411%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 2 outliers among 100 measurements (2.00%)
+  1 (1.00%) high mild
+  1 (1.00%) high severe
+Benchmarking rel_eval/verify/16384: Warming up for 3.0000 s
+Warning: Unable to complete 100 samples in 5.0s. You may wish to increase target time to 18.6s, or reduce sample count to 20.
+rel_eval/verify/16384   time:   [187.41 ms 188.05 ms 188.74 ms]
+                        change: [+0.2255% +0.6113% +1.0568%] (p = 0.00 < 0.05)
+                        Change within noise threshold.
+Found 12 outliers among 100 measurements (12.00%)
+  5 (5.00%) high mild
+  7 (7.00%) high severe
+Benchmarking rel_eval/prove/32768: Warming up for 3.0000 s
+Warning: Unable to complete 100 samples in 5.0s. You may wish to increase target time to 195.9s, or reduce sample count to 10.
+rel_eval/prove/32768    time:   [1.9467 s 1.9521 s 1.9579 s]
+Found 2 outliers among 100 measurements (2.00%)
+  2 (2.00%) high mild
+Benchmarking rel_eval/verify/32768: Warming up for 3.0000 s
+Warning: Unable to complete 100 samples in 5.0s. You may wish to increase target time to 37.1s, or reduce sample count to 10.
+rel_eval/verify/32768   time:   [374.23 ms 375.40 ms 376.87 ms]
+Found 6 outliers among 100 measurements (6.00%)
+  4 (4.00%) high mild
+  2 (2.00%) high severe
+Benchmarking rel_eval/prove/65536: Warming up for 3.0000 s
+Warning: Unable to complete 100 samples in 5.0s. You may wish to increase target time to 385.8s, or reduce sample count to 10.
+rel_eval/prove/65536    time:   [3.8532 s 3.8663 s 3.8826 s]
+                        change: [+0.3680% +0.7460% +1.1993%] (p = 0.00 < 0.05)
+                        Change within noise threshold.
+Found 11 outliers among 100 measurements (11.00%)
+  6 (6.00%) high mild
+  5 (5.00%) high severe
+Benchmarking rel_eval/verify/65536: Warming up for 3.0000 s
+Warning: Unable to complete 100 samples in 5.0s. You may wish to increase target time to 74.2s, or reduce sample count to 10.
+rel_eval/verify/65536   time:   [744.33 ms 745.64 ms 747.04 ms]
+                        change: [+1.1474% +1.3637% +1.5944%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 21 outliers among 100 measurements (21.00%)
+  15 (15.00%) high mild
+  6 (6.00%) high severe

@@ -1,6 +1,6 @@
 #![allow(non_snake_case)]
 use crate::helpers::{
-    coeff_at, coeff_at_chacha12, coeff_from_state, h2p, msm, next_pow2, rand_scalar,
+    coeff_at_chacha8, coeff_from_state, h2p, horner_eval, msm, next_pow2, rand_scalar,
 };
 use bulletproofs::LinearProof;
 use curve25519_dalek::{
@@ -49,7 +49,6 @@ pub struct Polynomial {
     m: usize,               // cache m = pp.g.len()
 }
 
-// Build x_padded and m at keygen:
 impl Polynomial {
     pub fn random(degree: usize, pp: &Params) -> Self {
         let coeffs: Vec<Scalar> = (0..=degree).map(|_| rand_scalar()).collect();
@@ -60,14 +59,12 @@ impl Polynomial {
         debug_assert!(m.is_power_of_two());
         debug_assert!(m >= n, "Params.g too short for polynomial degree");
 
-        // cache padded coeffs once
         let mut x_padded = Vec::with_capacity(m);
         x_padded.extend_from_slice(&coeffs);
         if m > n {
             x_padded.resize(m, Scalar::ZERO);
         }
 
-        // compute Cf once
         let cf = msm(&x_padded, &pp.g) + pp.g_rho * rho_f;
 
         Self {
@@ -83,7 +80,6 @@ impl Polynomial {
         self.coeffs.len() - 1
     }
 
-    // stored-coeffs evaluator
     pub fn eval(&self, z: &Scalar) -> Scalar {
         let coeffs = &self.coeffs;
 
@@ -91,10 +87,7 @@ impl Polynomial {
         const B: usize = 32;
 
         if coeffs.len() < PAR_THRESHOLD {
-            return coeffs
-                .iter()
-                .rev()
-                .fold(Scalar::ZERO, |acc, &c| acc * z + c);
+            return horner_eval(coeffs, *z);
         }
 
         // Precompute z^k for k=0..=B
@@ -162,7 +155,6 @@ impl Polynomial {
                     buf[off] = coeff_from_state(&base, i);
                 }
 
-                // Fast path: full block unrolled-ish
                 let mut acc = Scalar::ZERO;
                 for j in (0..blen).rev() {
                     acc = acc * z + unsafe { *buf.get_unchecked(j) };
@@ -178,15 +170,14 @@ impl Polynomial {
             .fold(Scalar::ZERO, |acc, (bval, blen)| acc * z_pows[blen] + bval)
     }
 
-    pub fn eval_with_prf_chacha12(z: &Scalar, degree: usize, key: &Scalar) -> Scalar {
+    pub fn eval_with_prf_chacha8(z: &Scalar, degree: usize, key: &Scalar) -> Scalar {
         const PAR_THRESHOLD: usize = 64;
         const B: usize = 32;
 
-        // Small degrees: sequential Horner
         if degree < PAR_THRESHOLD {
             return (0..=degree)
                 .rev()
-                .fold(Scalar::ZERO, |acc, i| acc * z + coeff_at_chacha12(key, i));
+                .fold(Scalar::ZERO, |acc, i| acc * z + coeff_at_chacha8(key, i));
         }
 
         // Precompute z^k for k=0..=B (correct tail combination)
@@ -208,7 +199,7 @@ impl Polynomial {
                 // derive block coeffs into a small stack buffer
                 let mut buf: [Scalar; B] = [Scalar::ZERO; B];
                 for (off, i) in (start..end).enumerate() {
-                    buf[off] = coeff_at_chacha12(key, i);
+                    buf[off] = coeff_at_chacha8(key, i);
                 }
 
                 let mut acc = Scalar::ZERO;
@@ -246,7 +237,6 @@ impl Polynomial {
 
     /// Produce (y, proof, public inputs) for f(z), reusing cached Cf and rho_f.
     pub fn prove_eval(&self, z: &Scalar, pp: &Params) -> (Scalar, LinearProof, PublicEval, Scalar) {
-        // Safety checks
         let n = self.coeffs.len();
         let m = pp.g.len();
         debug_assert!(m == self.m, "pp.m changed since keygen");
@@ -276,7 +266,6 @@ impl Polynomial {
         let rho_y = Scalar::random(&mut tr_rng);
         let Cy = pp.g0 * y + pp.g_rho * rho_y;
 
-        // Combine with cached Cf
         let Cf = self.cf;
         let P = (Cf + Cy).compress();
         let rho = self.rho_f + rho_y;
@@ -340,20 +329,13 @@ pub fn verify_eval(public: &PublicEval, proof: &LinearProof, pp: &Params) -> boo
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::helpers::coeff_at;
     use rand::RngCore;
-    use rayon::iter::ParallelBridge; // for par_bridge()
-    use rayon::prelude::*;
 
-    /// Helper: make a Polynomial whose coeffs are derived from the RO:
-    /// a_i = coeff_at(key, i), for i = 0..=degree.
     fn poly_from_ro_coeffs(degree: usize, key: &Scalar, pp: &Params) -> Polynomial {
-        // Build coeffs deterministically from the RO
         let coeffs: Vec<Scalar> = (0..=degree).map(|i| coeff_at(key, i)).collect();
-
-        // Random blinding and commitment (to satisfy struct invariants)
         let rho_f = rand_scalar();
 
-        // Cache padded coeffs and commitment, mirroring Polynomial::random
         let n = coeffs.len();
         let m = pp.g.len();
         assert!(m.is_power_of_two());
@@ -375,36 +357,25 @@ mod tests {
         }
     }
 
-    /// Random Scalar using OsRng.
     fn rand_scalar_os() -> Scalar {
         rand_scalar()
     }
 
     #[test]
     fn eval_matches_eval_with_ro_randomized() {
-        // Run multiple randomized trials; cover both small and large degrees.
-        // Include some hand-picked degrees around thresholds.
         let mut degrees = vec![
             0usize, 1, 2, 7, 31, 32, 33, 63, 64, 65, 128, 255, 256, 511, 512, 1023,
         ];
-        // Add a few random degrees in [0, 1200]
         let mut rng = rand::thread_rng();
         for _ in 0..8 {
             degrees.push((rng.next_u64() as usize) % 1201);
         }
 
         for degree in degrees {
-            // Setup params with enough bases (next power-of-two >= degree+1)
             let pp = Params::setup(degree + 1, "TestDomain");
-
-            // Random key and evaluation point
             let key = rand_scalar_os();
             let z = rand_scalar_os();
-
-            // Build polynomial with RO-derived coefficients
             let poly = poly_from_ro_coeffs(degree, &key, &pp);
-
-            // Evaluate both ways
             let y_coeffs = poly.eval(&z);
             let y_ro = Polynomial::eval_with_ro(&z, degree, &key);
 
@@ -421,12 +392,11 @@ mod tests {
 
     #[test]
     fn eval_matches_eval_with_ro_many_random_trials() {
-        // Lighter degrees, more trials for sanity.
         let trials = 50;
         let mut rng = rand::thread_rng();
 
         for _ in 0..trials {
-            let degree = (rng.next_u64() as usize) % 300; // 0..=299
+            let degree = (rng.next_u64() as usize) % 300;
             let pp = Params::setup(degree + 1, "TestDomain");
 
             let key = rand_scalar();

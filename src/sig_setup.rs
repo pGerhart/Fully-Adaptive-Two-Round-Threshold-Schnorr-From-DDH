@@ -2,8 +2,7 @@ use crate::helpers::{h2p, next_pow2};
 use crate::polynomial::Params;
 use curve25519_dalek::ristretto::RistrettoPoint;
 
-/// Public parameters for the signature scheme + IPA.
-/// We set t = n (your requirement).
+/// Public parameters for the signature scheme + IPA (t = n).
 pub struct SigParams {
     pub n: usize,          // number of signers (t = n)
     pub d: usize,          // polynomial degree bound for f
@@ -11,14 +10,13 @@ pub struct SigParams {
     pub h: RistrettoPoint, // scheme generator h
     pub v: RistrettoPoint, // scheme generator v
     pub pp: Params,        // IPA params with g0 == g
-    pub domain: String,    // saved for convenience/debug
+    pub domain: String,
 }
 
 impl SigParams {
     /// Setup(n, t=n, d): derive (g, h, v) and IPA params with g0 = g.
     /// `domain` is used for domain separation of all bases.
     pub fn setup(n: usize, d: usize, domain: &str) -> Self {
-        // signature scheme bases
         let g = h2p(domain, "sig_g", 0);
         let h = h2p(domain, "sig_h", 0);
         let v = h2p(domain, "sig_v", 0);

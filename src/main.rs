@@ -8,12 +8,10 @@ use two_round_fully_adaptive::sig_keygen::keygen;
 use two_round_fully_adaptive::sig_setup::SigParams;
 
 fn main() {
-    // pick a degree, e.g., 2^8
     let degree = 1usize << 8;
     let n = next_pow2(degree + 1);
     let domain = format!("RelEvalSingle/deg={degree}");
 
-    // setup
     let sp = SigParams::setup(n, degree, &domain);
     let (sk, pk) = keygen(&sp);
     let C = pk.pk;
@@ -23,7 +21,6 @@ fn main() {
     let h2 = h2p(&domain, "h2", 0);
     let z = rand_scalar();
 
-    // --- PROVE ---
     let mut rng = OsRng;
     let (rc, poly_pub) = rel_eval_prove(
         Transcript::new(b"RelEvalSigma"),
@@ -36,7 +33,6 @@ fn main() {
         &z,
     );
 
-    // --- VERIFY ---
     let ok = rel_eval_verify(
         Transcript::new(b"RelEvalSigma"),
         &sp,

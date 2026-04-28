@@ -14,10 +14,9 @@ fn bench_rel_eval(c: &mut Criterion) {
     // degrees = 2^4, 2^6, ..., 2^16
     for exp in (4..=16).step_by(1) {
         let degree = 1usize << exp;
-        let n = next_pow2(degree + 1); // t = n in your scheme
+        let n = next_pow2(degree + 1);
         let domain = format!("RelEvalBench/deg={degree}");
 
-        // --- one-time setup per degree (not in timed region) ---
         let sp = SigParams::setup(n, degree, &domain);
         let (sk, pk) = keygen(&sp);
         let C = pk.pk;
@@ -27,7 +26,6 @@ fn bench_rel_eval(c: &mut Criterion) {
         let h2 = h2p(&domain, "h2", 0);
         let z = rand_scalar();
 
-        // Precompute a valid bundle for the verify-only benchmark
         let mut rng_pre = OsRng;
         let bundle_for_verify = rel_eval_prove(
             Transcript::new(b"RelEvalSigma"),
@@ -39,14 +37,11 @@ fn bench_rel_eval(c: &mut Criterion) {
             &h2,
             &z,
         );
-        // rel_eval_prove returns (RandCommitment, PublicEval)
         let (rc_pre, poly_pub_pre) = &bundle_for_verify;
 
-        // --- PROVE benchmark ---
         group.bench_with_input(BenchmarkId::new("prove", degree), &degree, |b, &_deg| {
             let mut rng = OsRng;
             b.iter(|| {
-                // measure proving end-to-end
                 let bundle = rel_eval_prove(
                     Transcript::new(b"RelEvalSigma"),
                     &mut rng,
@@ -61,12 +56,8 @@ fn bench_rel_eval(c: &mut Criterion) {
             });
         });
 
-        // --- VERIFY benchmark (using precomputed bundle) ---
         group.bench_with_input(BenchmarkId::new("verify", degree), &degree, |b, &_deg| {
             b.iter(|| {
-                // rel_eval_verify(
-                //   tr, &sp, &C, &Cf, &h1, &h2, &a: Vec<Scalar>, &z: Scalar, &RandCommitment
-                // )
                 let ok = rel_eval_verify(
                     Transcript::new(b"RelEvalSigma"),
                     &sp,
