@@ -1,4 +1,4 @@
-# Fully-Adaptive Two-Round Threshold Schnorr Prototype
+# Fully-Adaptive Two-Round Threshold Schnorr Signatures from DDH Prototype
 
 This repository contains a prototype implementation accompanying the paper  
 > **Fully-Adaptive Two-Round Threshold Schnorr Signatures from DDH**  
