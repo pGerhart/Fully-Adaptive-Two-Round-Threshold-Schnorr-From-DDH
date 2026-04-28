@@ -98,7 +98,6 @@ Raw output is in [`bench_results/`](bench_results/).
 | 4 096      | 248 ms  | 47.6 ms |
 | 16 384     | 967 ms  | 188 ms  |
 
-Verification is consistently 5–7× faster than proving.
 
 ### Comparison with MuSig-DN (Purify)
 
